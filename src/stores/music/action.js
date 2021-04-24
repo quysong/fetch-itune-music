@@ -4,9 +4,10 @@ const fetchMusicRequest = payload => ({
   type: MUSIC.LOAD,
   payload,
 })
-const fetchMusicSuccess = payload => ({
+const fetchMusicSuccess = ({resultCount, results}) => ({
   type: MUSIC.LOAD_SUCCESS,
-  payload
+  resultCount,
+  results,
 })
 
 const fetchMusicFail = error => ({

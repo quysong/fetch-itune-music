@@ -1,51 +1,95 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { Row, Col, Spin } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { fetchMusicRequest } from "../../stores/music/action";
+import MusicSelector from "../../stores/music/selector";
 import "./styles.scss";
 
 const MusicListComponent = () => {
   const [searchVal, setSearchVal] = useState("");
   const [responseList, setResponseList] = useState(null);
-  const [selectedGenre, setSelectedGenre] = useState(-1);
+  const [filter, setFilter] = useState({
+    keyword: "",
+    genre: "",
+  });
+
+  const dispatch = useDispatch();
+  const musicResp = useSelector((state) => MusicSelector.music(state));
 
   const arrGenre = [
     { value: "movie", name: "Movie" },
     { value: "podcast", name: "Podcast" },
     { value: "music", name: "Music" },
     { value: "musicVideo", name: "Music Video" },
-    { value: "audioBook", name: "Audiobook" },
+    { value: "audiobook", name: "Audiobook" },
     { value: "shortFilm", name: "Short Film" },
     { value: "tvShow", name: "Tvshow" },
     { value: "software", name: "Software" },
     { value: "ebook", name: "Ebook" },
   ];
 
-  const onSelecteGenre = (index) => {
-    if (selectedGenre === index) {
-      setSelectedGenre(-1);
+  const onSelecteGenre = (genre) => {
+    console.log(`genre`, genre);
+    if (filter.genre === genre) {
+      setFilter({
+        keyword: searchVal,
+        genre: "",
+      });
     } else {
-      setSelectedGenre(index);
+      setFilter({
+        keyword: searchVal,
+        genre,
+      });
     }
   };
 
-  useEffect(() => {
-    fetch("https://itunes.apple.com/search?term=jack%20johnson&media=all")
-      .then((res) => res.json())
-      .then((data) => {
-        setResponseList(data);
+  const fetchData = () => {
+    dispatch(
+      fetchMusicRequest({ keyword: filter.keyword, genre: filter.genre })
+    );
+  };
+
+  const handleSearch = (e) => {
+    if (!e || e.key === "Enter") {
+      setFilter({
+        ...filter,
+        keyword: searchVal,
       });
-  }, []);
+    }
+  };
+
+  const onChangeSearch = (value) => {
+    setSearchVal(value);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [filter]);
+
+  useEffect(() => {
+    if (musicResp.list) {
+      setResponseList(musicResp.list);
+    }
+
+    if (musicResp.error) {
+    }
+  }, [musicResp]);
 
   return (
     <div className="song-layout">
       <Row className="search-block">
         <Col span={24}>
-          <SearchOutlined className="search-icon" />
+          <SearchOutlined
+            className="search-icon"
+            onClick={() => handleSearch(null)}
+          />
           <input
             placeholder="Search your entertainment"
             value={searchVal}
             className="search-input"
-            onChange={(e) => setSearchVal(e.target.value)}
+            onChange={(e) => onChangeSearch(e.target.value)}
+            onKeyDown={(e) => handleSearch(e)}
           ></input>
         </Col>
       </Row>
@@ -61,50 +105,54 @@ const MusicListComponent = () => {
                 return (
                   <div
                     key={`genre-item-${index}`}
-                    onClick={() => onSelecteGenre(index)}
+                    onClick={() => onSelecteGenre(genre.value)}
                     className={`genre-item ${
-                      index === selectedGenre ? "active" : ""
+                      genre.value === filter.genre ? "active" : ""
                     }`}
                   >
-                    {genre.value}
+                    {genre.name}
                   </div>
                 );
               })}
           </div>
         </Col>
       </Row>
-      <Row className="result-block">
-        <Col span={24}>
-          <span className="title">
-            Results ({responseList && responseList.resultCount})
-          </span>
-        </Col>
-      </Row>
-      <Row className="result-block">
-        {responseList &&
-          responseList.results.length > 0 &&
-          responseList.results.map((item, index) => {
-            return (
-              <Col
-                key={`result-item-${index}`}
-                className="song-item-col"
-                xs={{ span: 12 }}
-                sm={{ span: 4 }}
-              >
-                <div className="song-item">
-                  <div className="thumb">
-                    <img
-                      src="https://via.placeholder.com/112x112"
-                      alt="thumb-img"
-                    />
+      {musicResp.loading ? (
+        <Spin size="large" className="loading-block"></Spin>
+      ) : responseList && responseList.length > 0 ? (
+        <>
+          <Row className="result-block">
+            <Col span={24}>
+              <span className="title">
+                Results ({(musicResp && musicResp.resultCount) || 0})
+              </span>
+            </Col>
+            {responseList.map((item, index) => {
+              return (
+                <Col
+                  key={`result-item-${index}`}
+                  className="song-item-col"
+                  xs={{ span: 12 }}
+                  sm={{ span: 4 }}
+                >
+                  <div className="song-item">
+                    <div className="thumb">
+                      <img src={item.artworkUrl100} alt="thumb-img" />
+                    </div>
+                    <div className="label">{item.trackName}</div>
+                    <div className="singer">{item.artistName}</div>
                   </div>
-                  <div className="label">Sucker</div>
-                  <div className="singer">Jonas Brothers</div>
-                </div>
-              </Col>
-            );
-          })}
-      </Row>
+                </Col>
+              );
+            })}
+          </Row>
+        </>
+      ) : (
+        <>
+          {musicResp.error && <div>Server internal error.</div>}
+          <div>Cannot find any result you are looking for!</div>
+        </>
+      )}
     </div>
   );
 };
