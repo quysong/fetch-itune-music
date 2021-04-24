@@ -1,0 +1,101 @@
+$gray1: #0f1e36;
+$green1: #2f904f;
+$border1: #dadada;
+$white1: #ffffff;
+$margin-block: 25px 0;
+
+.song-layout {
+  margin: 0 25px;
+
+  .search-block {
+    margin: $margin-block;
+
+    .ant-col {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      font-size: 20px;
+      color: $gray1;
+      opacity: 0.5;
+    }
+
+    .search-input {
+      padding-left: 3px;
+      width: 100%;
+      font-size: 12px;
+      outline: none;
+      border: none;
+    }
+  }
+
+  .filter-block {
+    margin: $margin-block;
+
+    .genre-list {
+      margin-top: 15px;
+      display: block;
+
+      .genre-item {
+        float: left;
+        padding: 8px 16px;
+        margin: 5px 12px 10px 0px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 11px;
+        line-height: 12px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        border: 1px solid $border1;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &.active {
+          background: $green1;
+          color: $white1;
+        }
+      }
+    }
+  }
+
+  .result-block {
+    .song-item-col {
+      display: flex;
+      justify-content: center;
+    }
+    .song-item {
+      width: 112px;
+      height: 150px;
+      margin-top: 20px;
+
+      .thumb {
+        width: 100%;
+        height: 112px;
+      }
+
+      .label {
+        color: $gray1;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        padding-top: 5px;
+      }
+
+      .singer {
+        color: $gray1;
+        font-size: 10px;
+        opacity: 0.48;
+      }
+    }
+  }
+
+  .title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 22px;
+    color: $gray1;
+  }
+}
