@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Spin } from "antd";
+import { Row, Col } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { fetchMusicRequest } from "../../stores/music/action";
-import MusicSelector from "../../stores/music/selector";
+import { music } from "../../stores/music/selector";
 import "./styles.scss";
+import Loading from "../common/loading";
+import Error from "../common/error";
+import NotFound from "../common/not-found";
 
 const MusicListComponent = () => {
   const [searchVal, setSearchVal] = useState("");
@@ -15,7 +18,7 @@ const MusicListComponent = () => {
   });
 
   const dispatch = useDispatch();
-  const musicResp = useSelector((state) => MusicSelector.music(state));
+  const musicResp = useSelector((state) => music(state));
 
   const arrGenre = [
     { value: "movie", name: "Movie" },
@@ -30,7 +33,6 @@ const MusicListComponent = () => {
   ];
 
   const onSelecteGenre = (genre) => {
-    console.log(`genre`, genre);
     if (filter.genre === genre) {
       setFilter({
         keyword: searchVal,
@@ -44,11 +46,11 @@ const MusicListComponent = () => {
     }
   };
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     dispatch(
       fetchMusicRequest({ keyword: filter.keyword, genre: filter.genre })
     );
-  };
+  }, [dispatch, filter]);
 
   const handleSearch = (e) => {
     if (!e || e.key === "Enter") {
@@ -65,9 +67,13 @@ const MusicListComponent = () => {
 
   useEffect(() => {
     fetchData();
-  }, [filter]);
+  }, [filter, fetchData]);
 
   useEffect(() => {
+    if (!musicResp) {
+      return;
+    }
+
     if (musicResp.list) {
       setResponseList(musicResp.list);
     }
@@ -117,9 +123,9 @@ const MusicListComponent = () => {
           </div>
         </Col>
       </Row>
-      {musicResp.loading ? (
-        <Spin size="large" className="loading-block"></Spin>
-      ) : responseList && responseList.length > 0 ? (
+      {musicResp?.loading ? (
+        <Loading></Loading>
+      ) : responseList && responseList?.length > 0 ? (
         <>
           <Row className="result-block">
             <Col span={24}>
@@ -149,8 +155,8 @@ const MusicListComponent = () => {
         </>
       ) : (
         <>
-          {musicResp.error && <div>Server internal error.</div>}
-          <div>Cannot find any result you are looking for!</div>
+          {musicResp?.error && <Error></Error>}
+          <NotFound></NotFound>
         </>
       )}
     </div>

@@ -10,13 +10,11 @@ const configStore = configureStore();
 
 function App() {
   return (
-    <>
-      <Provider store={configStore.store}>
-        <PersistGate persistor={configStore.persistor}>
-          <MusicListPage></MusicListPage>
-        </PersistGate>
-      </Provider>
-    </>
+    <Provider store={configStore.store}>
+      <PersistGate persistor={configStore.persistor}>
+        <MusicListPage></MusicListPage>
+      </PersistGate>
+    </Provider>
   );
 }
 
