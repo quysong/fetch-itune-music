@@ -1,14 +1,9 @@
 import { put, takeLatest, call, delay } from 'redux-saga/effects'
 import { MUSIC } from "./constants";
 import { fetchMusicSuccess, fetchMusicFail } from "./action";
+import { fetchData } from '../../api/music';
 
-const fetchData = ({ keyword, genre }) => {
-  const term = keyword || "all";
-  const media = genre || "all";
-  return fetch(`https://itunes.apple.com/search?limit=100&term=${term}&media=${media}`).then((res) => res.json())
-};
-
-function* handleGetMusicLoad(action) {
+export function* handleGetMusicLoad(action) {
   try {
     const { resultCount, results } = yield call(fetchData, action.payload)
     yield delay(300)

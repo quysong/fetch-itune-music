@@ -11,7 +11,6 @@ import NotFound from "../common/not-found";
 
 const MusicListComponent = () => {
   const [searchVal, setSearchVal] = useState("");
-  const [responseList, setResponseList] = useState(null);
   const [filter, setFilter] = useState({
     keyword: "",
     genre: "",
@@ -69,19 +68,6 @@ const MusicListComponent = () => {
     fetchData();
   }, [filter, fetchData]);
 
-  useEffect(() => {
-    if (!musicResp) {
-      return;
-    }
-
-    if (musicResp.list) {
-      setResponseList(musicResp.list);
-    }
-
-    if (musicResp.error) {
-    }
-  }, [musicResp]);
-
   return (
     <div className="song-layout">
       <Row className="search-block">
@@ -125,7 +111,7 @@ const MusicListComponent = () => {
       </Row>
       {musicResp?.loading ? (
         <Loading></Loading>
-      ) : responseList && responseList?.length > 0 ? (
+      ) : musicResp?.list && musicResp?.list.length > 0 ? (
         <>
           <Row className="result-block">
             <Col span={24}>
@@ -133,7 +119,7 @@ const MusicListComponent = () => {
                 Results ({(musicResp && musicResp.resultCount) || 0})
               </span>
             </Col>
-            {responseList.map((item, index) => {
+            {musicResp.list.map((item, index) => {
               return (
                 <Col
                   key={`result-item-${index}`}
