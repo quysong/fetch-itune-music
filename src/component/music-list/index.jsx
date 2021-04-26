@@ -68,6 +68,7 @@ const MusicListComponent = () => {
           <input
             placeholder="Search your entertainment"
             value={searchVal}
+            id="search-input"
             className="search-input"
             onChange={(e) => onChangeSearch(e.target.value)}
             onKeyDown={(e) => handleSearch(e)}
@@ -89,7 +90,7 @@ const MusicListComponent = () => {
                     onClick={() => onSelecteGenre(genre.value)}
                     className={`genre-item ${
                       genre.value === filter.genre ? "active" : ""
-                    }`}
+                    } genre-item__${genre.value}`}
                   >
                     {genre.name}
                   </div>

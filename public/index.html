@@ -31,6 +31,14 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <script>
+      if (window.Cypress) {
+        window['__REDUX_DEVTOOLS_EXTENSION__'] =
+          window.parent['__REDUX_DEVTOOLS_EXTENSION__'];
+        window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] =
+          window.parent['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'];
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

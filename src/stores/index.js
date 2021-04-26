@@ -16,12 +16,18 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware()
 
+  let devTool = null;
+  if(window) {
+    if(window.__REDUX_DEVTOOLS_EXTENSION__) {
+      devTool = window.__REDUX_DEVTOOLS_EXTENSION__();
+    }
+  }
+
   const store = createStore(
     persistedReducer,
     compose(
       applyMiddleware(sagaMiddleware),
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION__()
+      devTool,
     )
   )
   sagaMiddleware.run(rootSaga)
