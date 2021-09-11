@@ -1,5 +1,5 @@
 {
-  "name": "fetch-itune-music",
+  "name": "fetch-items",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -48,7 +48,6 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^7.0.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "start-server-and-test": "^1.12.1"
   }

@@ -1,42 +1,68 @@
-# **Assignment for Frontend Position**
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-#
+## Available Scripts
 
-# Introduction
+In the project directory, you can run:
 
-For the coding challenge, you are tasked to build an application that will fetch music results from iTunes api and display the results according to the design requirements. The app is required to have search and filter functionalities. Below is the preview of the design, you can find the design files hosted on [Figma](https://www.figma.com/file/o1KQ1vN8Zms4vhFeQihN5A/Hiring-Test?node-id=0%3A1).
+### `npm start`
 
-![](./home-screen.png)
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-#
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-# Tasks
+### `npm test`
 
-Build a responsive single page application that uses iTunes search API to fetch information within the iTunes Store based on the user&#39;s search query. Information about the API can be found at [iTunes Search API](https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/) page. Create a &quot;discover&quot; page following the the design (pixel perfect) with the following features:
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- Search
-  1. Users can type in any phrase they like
-- Filter by genre
-  1. Users can click on any of the existing Genre present in the Filter Genre section to fetch results for the particular genre
-- Show music result
-  1. Once results are returned successfully from the api request, display the results and the count according to the design specifications
-- Implement your own design when no results are returned from the api call
+### `npm run build`
 
-#
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-# Requirements
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-- Use React as the UI library. Ensure the page is responsive and pixel perfect
-- Use redux (or equivalent state management libraries) for state management (saving music categories i.e. genres, loading and error states). Nice to have redux-saga, redux persist implemented
-- You can use any UI library for React, but [Ant Design](https://ant.design/) is preferred
-- SCSS is preferred. But feel free to use whichever suits you best. Tune the build system as needed to allow for it.
-- Unit tests for react components and other logic you might have in your application
-- End to end (E2E) tests using Cypress or equivalent tools
-- We will review variable naming, code style, folder structure, separation of concerns etc
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-#
+### `npm run eject`
 
-# Submission
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-- [GitHub](https://github.com/)
-- others (E.g. [Bitbucket](https://bitbucket.org/), [Gitlab](https://about.gitlab.com/), [CodeSandbox](https://codesandbox.io/))
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

@@ -2,15 +2,15 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { fetchMusicRequest } from "../../stores/music/action";
-import { music } from "../../stores/music/selector";
+import { fetchIssueRequest } from "../../stores/issue/action";
+import { issue } from "../../stores/issue/selector";
 import "./styles.scss";
 import Loading from "../common/loading";
 import Error from "../common/error";
 import NotFound from "../common/not-found";
 import { arrGenre } from "../../utils/variables";
 
-const MusicListComponent = () => {
+const IssueListComponent = () => {
   const [searchVal, setSearchVal] = useState("");
   const [filter, setFilter] = useState({
     keyword: "",
@@ -18,7 +18,7 @@ const MusicListComponent = () => {
   });
 
   const dispatch = useDispatch();
-  const musicResp = useSelector((state) => music(state));
+  const issueResp = useSelector((state) => issue(state));
 
   const onSelecteGenre = (genre) => {
     if (filter.genre === genre) {
@@ -36,7 +36,7 @@ const MusicListComponent = () => {
 
   const fetchData = useCallback(() => {
     dispatch(
-      fetchMusicRequest({ keyword: filter.keyword, genre: filter.genre })
+      fetchIssueRequest({ keyword: filter.keyword, genre: filter.genre })
     );
   }, [dispatch, filter]);
 
@@ -58,7 +58,7 @@ const MusicListComponent = () => {
   }, [filter, fetchData]);
 
   return (
-    <div className="song-layout">
+    <div className="main-layout">
       <Row className="search-block">
         <Col span={24}>
           <SearchOutlined
@@ -99,30 +99,29 @@ const MusicListComponent = () => {
           </div>
         </Col>
       </Row>
-      {musicResp?.loading ? (
+      {issueResp?.loading ? (
         <Loading></Loading>
-      ) : musicResp?.list && musicResp?.list.length > 0 ? (
+      ) : issueResp?.list && issueResp?.list.length > 0 ? (
         <>
           <Row className="result-block">
             <Col span={24}>
               <span className="title">
-                Results ({(musicResp && musicResp.resultCount) || 0})
+                Results ({(issueResp && issueResp.resultCount) || 0})
               </span>
             </Col>
-            {musicResp.list.map((item, index) => {
+            {issueResp.list.map((item, index) => {
               return (
                 <Col
                   key={`result-item-${index}`}
-                  className="song-item-col"
+                  className="item-col"
                   xs={{ span: 12 }}
                   sm={{ span: 4 }}
                 >
-                  <div className="song-item">
+                  <div className="item">
                     <div className="thumb">
                       <img src={item.artworkUrl100} alt="thumb-img" />
                     </div>
                     <div className="label">{item.trackName}</div>
-                    <div className="singer">{item.artistName}</div>
                   </div>
                 </Col>
               );
@@ -131,7 +130,7 @@ const MusicListComponent = () => {
         </>
       ) : (
         <>
-          {musicResp?.error && <Error></Error>}
+          {issueResp?.error && <Error></Error>}
           <NotFound></NotFound>
         </>
       )}
@@ -139,4 +138,4 @@ const MusicListComponent = () => {
   );
 };
 
-export default MusicListComponent;
+export default IssueListComponent;

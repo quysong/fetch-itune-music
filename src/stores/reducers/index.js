@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import musicReducer from "../music/reducer";
-import { MUSIC_STORE } from '../music/constants'
+import issueReducer from "../issue/reducer";
+import { ISSUE_STORE } from '../issue/constants'
 
 const rootReducer = combineReducers({
-  [MUSIC_STORE]: musicReducer,
+  [ISSUE_STORE]: issueReducer,
 })
 export default rootReducer

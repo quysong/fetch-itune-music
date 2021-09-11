@@ -1,7 +1,7 @@
 import { call, put, take } from 'redux-saga/effects';
 import { expectSaga } from 'redux-saga-test-plan';
-import { MUSIC } from '../../stores/music/constants';
-import { fetchData } from '../../api/music';
+import { ISSUE } from '../../stores/issue/constants';
+import { fetchData } from '../../api/issue';
 
 const filter = {
   keyword: 'abce',
@@ -9,17 +9,17 @@ const filter = {
 }
 
 describe('Page test', function () {
-  it('MUSIC_LOAD', () => {
-    function* musicSaga() {
-      const action = yield take(MUSIC.LOAD);
+  it('ISSUE_LOAD', () => {
+    function* issueSaga() {
+      const action = yield take(ISSUE.LOAD);
       const { resultCount, results } = yield call(fetchData, action.payload);
 
-      yield put({ type: MUSIC.LOAD_SUCCESS, payload: { resultCount, results } });
+      yield put({ type: ISSUE.LOAD_SUCCESS, payload: { resultCount, results } });
     }
 
-    return expectSaga(musicSaga)
+    return expectSaga(issueSaga)
       .put({
-        type: MUSIC.LOAD_SUCCESS,
+        type: ISSUE.LOAD_SUCCESS,
         payload: {
           "resultCount": 2,
           "results": [
@@ -110,7 +110,7 @@ describe('Page test', function () {
           ]
         },
       })
-      .dispatch({ type: MUSIC.LOAD, payload: filter })
+      .dispatch({ type: ISSUE.LOAD, payload: filter })
       .run();
   });
 })

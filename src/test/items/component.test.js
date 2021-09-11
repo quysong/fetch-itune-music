@@ -3,7 +3,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { mount, configure } from "enzyme";
 import configureStore from "redux-mock-store";
 import { Provider as ReduxProvider } from "react-redux";
-import MusicListComponent from "../../component/music-list";
+import IssueListComponent from "../../component/issues";
 import NotFound from "../../component/common/not-found";
 
 configure({ adapter: new Adapter() });
@@ -21,7 +21,7 @@ const renderState = (reduxStateOverrides) => {
 
   return mount(
     <ReduxProvider store={store}>
-      <MusicListComponent />
+      <IssueListComponent />
     </ReduxProvider>,
   );
 };
