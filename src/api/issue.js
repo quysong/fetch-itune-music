@@ -1,5 +1,6 @@
-export const fetchData = ({ keyword, genre }) => {
-  const term = keyword || "all";
-  const media = genre || "all";
-  return fetch(`https://itunes.apple.com/search?limit=100&term=${term}&media=${media}`).then((res) => res.json())
+import { API_URL } from "../utils/variables";
+
+export const fetchData = ({ genre }) => {
+  const state = genre || 'all'
+  return fetch(`${API_URL}/repos/nnluukhtn/employment_bot/issues?q=is%3Aissue+is%3A${state}`).then((res) => res.json())
 };

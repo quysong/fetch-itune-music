@@ -80,30 +80,46 @@ $margin-block: 25px 0;
   .result-block {
     .item-col {
       margin-top: 15px;
-      display: flex;
       justify-content: center;
     }
     .item {
-      width: 112px;
-      height: 150px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      padding: 15px;
 
-      .thumb {
-        width: 100%;
-        height: 112px;
+      &:hover {
+        cursor: pointer;
+        background: #f8f8f8;
       }
-
+      .row {
+        display: flex;
+      }
+  
       .label {
-        color: $gray1;
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 16px;
-        padding-top: 5px;
-        display: inline-block;
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        border-radius: 10px;
+        background: #ccc;
+        display: block;
+        width: -moz-fit-content;
+        width: fit-content;
+        padding: 0 10px;
+        margin-left: 10px;
       }
+
+      .state {
+        font-weight: bold;
+        margin-bottom: 5px;
+        .open {
+          color: green;
+        }
+        .close {
+          color: red;
+        }
+      }
+
+      .description {
+        margin-top: 5px;
+      }
+
     }
   }
 

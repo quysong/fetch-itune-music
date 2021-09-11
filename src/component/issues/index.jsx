@@ -1,57 +1,48 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Row, Col, Modal } from "antd";
 import { fetchIssueRequest } from "../../stores/issue/action";
 import { issue } from "../../stores/issue/selector";
-import "./styles.scss";
 import Loading from "../common/loading";
 import Error from "../common/error";
 import NotFound from "../common/not-found";
 import { arrGenre } from "../../utils/variables";
+import "./styles.scss";
 
 const IssueListComponent = () => {
-  const [searchVal, setSearchVal] = useState("");
   const [filter, setFilter] = useState({
-    keyword: "",
     genre: arrGenre[0].value,
   });
+  const [visible, setVisible] = useState(false)
+  const [detail, setDetail] = useState({})
 
   const dispatch = useDispatch();
   const issueResp = useSelector((state) => issue(state));
 
   const onSelecteGenre = (genre) => {
+    console.log(`issueResp`, issueResp)
+    if(issueResp && issueResp.list && issueResp.list.length > 0) {
+    }
     if (filter.genre === genre) {
       setFilter({
-        keyword: searchVal,
         genre: "",
       });
     } else {
       setFilter({
-        keyword: searchVal,
         genre,
       });
     }
   };
 
   const fetchData = useCallback(() => {
-    dispatch(
-      fetchIssueRequest({ keyword: filter.keyword, genre: filter.genre })
-    );
+    dispatch(fetchIssueRequest({ genre: filter.genre }));
   }, [dispatch, filter]);
 
-  const handleSearch = (e) => {
-    if (!e || e.key === "Enter") {
-      setFilter({
-        ...filter,
-        keyword: searchVal,
-      });
-    }
-  };
-
-  const onChangeSearch = (value) => {
-    setSearchVal(value);
-  };
+  const showDetail = (item) => {
+    setDetail(item)
+    console.log(`item`, item)
+    setVisible(true)
+  }
 
   useEffect(() => {
     fetchData();
@@ -59,25 +50,9 @@ const IssueListComponent = () => {
 
   return (
     <div className="main-layout">
-      <Row className="search-block">
-        <Col span={24}>
-          <SearchOutlined
-            className="search-icon"
-            onClick={() => handleSearch(null)}
-          />
-          <input
-            placeholder="Search your entertainment"
-            value={searchVal}
-            id="search-input"
-            className="search-input"
-            onChange={(e) => onChangeSearch(e.target.value)}
-            onKeyDown={(e) => handleSearch(e)}
-          ></input>
-        </Col>
-      </Row>
       <Row className="filter-block">
         <Col span={24}>
-          <span className="title">Filter Genre</span>
+          <span className="title">Filter State</span>
         </Col>
         <Col span={24}>
           <div className="genre-list">
@@ -114,19 +89,49 @@ const IssueListComponent = () => {
                 <Col
                   key={`result-item-${index}`}
                   className="item-col"
-                  xs={{ span: 12 }}
-                  sm={{ span: 4 }}
+                  xs={{ span: 24 }}
+                  sm={{ span: 24 }}
                 >
-                  <div className="item">
-                    <div className="thumb">
-                      <img src={item.artworkUrl100} alt="thumb-img" />
+                  <div className="item" onClick={() => showDetail(item)}>
+                    <div className="state">
+                      {item.state === "open" ? (
+                        <div className="open">Open</div>
+                      ) : (
+                        <div className="close">Close</div>
+                      )}
                     </div>
-                    <div className="label">{item.trackName}</div>
+
+                    <div className="row">
+                      <div className="title">{item.title}</div>
+                      {item.labels?.length !== 0 &&
+                        item.labels.map((label, index) => (
+                          <div className="label" key={`item-label-${index}`}>
+                            {label.name}
+                          </div>
+                        ))}
+                    </div>
+                    <div className="description">
+                      <span>
+                        {`#${item.number} ${
+                          item.state === "open" ? "open" : "close"
+                        } by ${item.user.login}`}
+                      </span>
+                    </div>
                   </div>
                 </Col>
               );
             })}
           </Row>
+          <Modal
+            title="Issue detail"
+            visible={visible}
+            onCancel={() => setVisible(false)}
+            footer={[]}
+          >
+            <p>{detail.title}</p>
+            <p>{detail.body}</p>
+            <p>State: {detail.state}</p>
+          </Modal>
         </>
       ) : (
         <>

@@ -5,9 +5,10 @@ import { fetchData } from '../../api/issue';
 
 export function* handleGetIssueLoad(action) {
   try {
-    const { resultCount, results } = yield call(fetchData, action.payload)
+    const results = yield call(fetchData, action.payload)
     yield delay(300)
-    yield put(fetchIssueSuccess({ resultCount, results }))
+    yield put(fetchIssueSuccess({ resultCount: results.length, results }))
+    localStorage.setItem('__store', JSON.stringify(results))
   } catch (error) {
     yield put(fetchIssueFail(error))
   }
